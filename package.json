@@ -1,0 +1,27 @@
+{
+  "name": "userprofileapi",
+  "version": "1.0.0",
+  "description": "\"APi for user authentication and profile data\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prashantmadaan/UserProfileAPI.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/prashantmadaan/UserProfileAPI/issues"
+  },
+  "homepage": "https://github.com/prashantmadaan/UserProfileAPI#readme",
+  "devDependencies": {
+    "nodemon": "^1.19.2"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.7.1"
+  }
+}
