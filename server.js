@@ -2,11 +2,11 @@ var express = require('express'),
   app = express(),
   port = process.env.PORT || 3000,
   mongoose = require('mongoose'),
-  Task = require('./api/models/userProfileAPIModel'), //created model loading here
+  Task = require('./api/models/userProfileAPIModels'), //created model loading here
   bodyParser = require('body-parser');
 
   app.use(bodyParser.json({
-  l imit: "50mb"
+   limit: "50mb"
   }));
   app.use(bodyParser.urlencoded({
     limit: "50mb",
@@ -15,9 +15,15 @@ var express = require('express'),
   }));
 
 // mongoose instance connection url connection
+
+
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/UserProfiledb');
-
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function callback() {
+  console.log("Sucessfully connected to Db");
+});
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

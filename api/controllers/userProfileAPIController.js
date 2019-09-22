@@ -3,57 +3,91 @@
 
 var mongoose = require('mongoose'),
 Login = mongoose.model('login'),
-Users = mongose.model('user');
+Users = mongoose.model('user'),
 bodyParser = require('body-parser');
 
 
-const jwt= require('jsonwebtoken')
+const jwt= require('jsonwebtoken');
 
 exports.create_a_user = function(req, res) {
+  console.log("Reached Inside Signup");
   if (!req.body.email || !req.body.password) {
       res.status(400).send({
       message: "Invalid parameters"
     });
     }
+  console.log("Reached checking params");
 
-    email_req=req.body.email;
-    password_req=req.body.password;
+    var email_req=req.body.email;
+    var password_req=req.body.password;
     Login.find({
-          {email : email_req}
+          _id : email_req
       },function(error,comments){
-        console.log(error);
+        console.log("Error================",error);
        console.log("========comments==========", comments);
+
        if (error) {
-          first_name_req=req.body.firstName;
-          last_name_req=req.body.lastName;
-          LoginUser={
-            "":,
-            "":,
+         res.status(400).send({
+           message: "Error occured while fetching from user schema"
+            });
+               }
+        //   console.log("Reached Inside Signup");
+        if(comments.length==0){
+          var first_name_req=req.body.first_name;
+          var last_name_req=req.body.last_name;
+          var loginUser={
+            "_id":email_req,
+            "password":password_req,
           }
+          var login_task=new Login(loginUser);
+          login_task.save(function(err,loginUser){
+            if (err){
+            //  res.send(err);
+            }
+          });
+          var userObj= {
+            _id:email_req,
+            first_name:first_name_req,
+            last_name:last_name_req
+            }
+            var users_task=new Users(userObj);
+            users_task.save(function(err,userObj){
+                if(err){
+            //      res.send(err);
+                }
+                res.send("success");
+            });
 
-
-     }else{
-       res.status(400).send({
-         message: "Error occured while fetching from user schema"
-     });
-     }
-
-
-
-
-
+}});
 };
 
 
 exports.signin_user = function(req, res) {
 
-  var new_login = new Login(req.body);
-  new_task.save(function(err, task) {
-    if (err)
-      res.send(err);
+  var email_req=req.body.email;
+  var passwowrd=req.body.password;
+  Login.find({_id : email_req}, function(error, comments) {
+       const response = {};
+       if(comments.length){
+         if(comments[0].password === req.body.password){
+           jwt.sign({email:email_req},"secretkey",(err,token) =>{
+            response.token=token;
+          });
+           response.status = "Success";
+           response.message = "User Sucessfully logged In";
 
-    res.json(task);
-  });
+           res.send(response);
+         }else {
+           response.status = "Failure";
+           response.message = "password not correct";
+           res.send(response);
+         }
+       }else{
+         response.status = "Failure";
+         response.message = "user not found";
+         res.send(response)
+       }
+   });
 };
 
 

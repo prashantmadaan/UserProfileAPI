@@ -15,7 +15,7 @@ var LoginSchema = new Schema({
     }
   },
   password:{
-     type:Password,
+     type:String,
      required:true,
      minlength:7
    }
@@ -51,7 +51,7 @@ var UserProfileSchema = new Schema({
     }
   },
   weight: {
-    type: Decimal,
+    type: Number,
     default: 0
   },
   address: {
