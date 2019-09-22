@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 
 var LoginSchema = new Schema({
 
-  email_address: {
+  _id: {
     type:String,
     required:true,
     unique:true,
@@ -18,17 +18,12 @@ var LoginSchema = new Schema({
      type:Password,
      required:true,
      minlength:7
-   },
-  confirm_password:{
-    type:Password,
-    required:true,
-    minlength:7
-  }
+   }
 });
 
 var UserProfileSchema = new Schema({
 
-  email_address: {
+  _id: {
     type:String,
     required:true,
     unique:true,
