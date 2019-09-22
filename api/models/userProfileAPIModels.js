@@ -8,11 +8,11 @@ var LoginSchema = new Schema({
     type:String,
     required:true,
     unique:true,
-    validate(value){
-      if(!validator.isEmail(value)){                        // npm install validator
-        throw new Error('Email is invalid')
-      }
-    }
+    // validate(value){
+    //   if(!validator.isEmail(value)){                        // npm install validator
+    //     throw new Error('Email is invalid')
+    //   }
+    // }
   },
   password:{
      type:String,
@@ -27,11 +27,11 @@ var UserProfileSchema = new Schema({
     type:String,
     required:true,
     unique:true,
-    validate(value){
-      if(!validator.isEmail(value)){                        // npm install validator
-        throw new Error('Email is invalid')
-      }
-    }
+    // validate(value){
+    //   if(!validator.isEmail(value)){                        // npm install validator
+    //     throw new Error('Email is invalid')
+    //   }
+    // }
   },
   first_name: {
     type: String,
@@ -44,11 +44,11 @@ var UserProfileSchema = new Schema({
   age: {
     type: Number,
     default:0,
-    validate(value){
-      if(value < 0){
-        throw new Error('Age must be a positive number')
-      }
-    }
+    // validate(value){
+    //   if(value < 0){
+    //     throw new Error('Age must be a positive number')
+    //   }
+    // }
   },
   weight: {
     type: Number,

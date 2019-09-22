@@ -42,7 +42,7 @@ exports.create_a_user = function(req, res) {
           var login_task=new Login(loginUser);
           login_task.save(function(err,loginUser){
             if (err){
-            //  res.send(err);
+              res.send(err);
             }
           });
           var userObj= {
@@ -53,12 +53,16 @@ exports.create_a_user = function(req, res) {
             var users_task=new Users(userObj);
             users_task.save(function(err,userObj){
                 if(err){
-            //      res.send(err);
+                 res.send(err);
                 }
                 res.send("success");
             });
 
-}});
+}
+else{
+    res.send("User exists");
+}
+});
 };
 
 
