@@ -72,15 +72,16 @@ exports.signin_user = function(req, res) {
   var passwowrd=req.body.password;
   Login.find({_id : email_req}, function(error, comments) {
        const response = {};
+       var tok=0;
        if(comments.length){
          if(comments[0].password === req.body.password){
            jwt.sign({email:email_req},"secretkey",(err,token) =>{
-            response.token=token;
-          });
-           response.status = "Success";
-           response.message = "User Sucessfully logged In";
+             response.status = "Success";
+             response.message = "User Sucessfully logged In";
+             response.token=token;
+             console.log(response);
+             res.send(response);          });
 
-           res.send(response);
          }else {
            response.status = "Failure";
            response.message = "password not correct";
@@ -95,19 +96,116 @@ exports.signin_user = function(req, res) {
 };
 
 
-exports.fetch_user_profile = function(req, res) {
-  Task.findById(req.params.taskId, function(err, task) {
-    if (err)
-      res.send(err);
-    res.json(task);
-  });
-};
+exports.fetch_user_profile = function verifytoken(req,res) {
+
+  console.log("inside validate function");
+
+  const bearerHeader=req.headers['authorization'];
+
+  if(typeof bearerHeader !=="undefined"){
+    const bearer = bearerHeader.split(" ");
+    const bearer_token= bearer[1];
+    req.token = bearer_token;
+    console.log("inside bearer");
+
+    jwt.verify(req.token, 'secretkey',(err,authData)=>{
+      if(err){
+        res.send(403);
+        console.log("forbidden from validate");
+      }else{
+//  res.send("validated");
+            getuserProfile(req.body.email,req,res)
+        //console.log(data);
+
+      }
+    });
+  }else{
+    res.sendStatus(403);
+  }
+}
+
+function getuserProfile(email,req,res){
+  Users.find({_id : email}, function(error, comments) {
+      var response = {};
+       if(comments.length){
+         console.log("User Found");
+         console.log(comments[0]);
+        var user=comments[0];
+        response.status=200;
+        response.data=user;
+   }else{
+    response.status=502;
+    response.message="User Not found";
+  }
+    res.send(response);
+   });
+}
+
+
 
 
 exports.update_user_profile = function(req, res) {
-  Task.findOneAndUpdate({_id: req.params.taskId}, req.body, {new: true}, function(err, task) {
-    if (err)
-      res.send(err);
-    res.json(task);
-  });
+
+  console.log("inside validate function");
+
+  const bearerHeader=req.headers['authorization'];
+
+  if(typeof bearerHeader !=="undefined"){
+    const bearer = bearerHeader.split(" ");
+    const bearer_token= bearer[1];
+    req.token = bearer_token;
+    console.log("inside bearer");
+
+    jwt.verify(req.token, 'secretkey',(err,authData)=>{
+      if(err){
+        res.send(403);
+        console.log("forbidden from validate");
+      }else{
+//  res.send("validated");
+            console.log(req.body);
+            updateuserProfile(req.body.user,req,res)
+        //console.log(data);
+
+      }
+    });
+  }else{
+    res.sendStatus(403);
+  }
 };
+
+
+function updateuserProfile(user,req,res){
+  console.log(user["email"]);
+  console.log(user.email);
+  Users.findOneAndUpdate({_id : user.email},{
+    first_name:user.first_name,
+    last_name:user.last_name,
+    age:user.age,
+    weight:user.weight,
+    address:user.address
+    } ,function(error, comments) {
+  //     var response = {};
+  //      if(comments.length){
+  //        console.log("User Found");
+  //        console.log(comments[0]);
+  //       var user=comments[0];
+  //       response.status=200;
+  //       response.data=user;
+  //  }else{
+  //   response.status=502;
+  //   response.message="User Not found";
+  // }
+  //   res.send(response);
+  if(error){
+    var response={};
+    response.status=402;
+    response.message="Not  Updated";
+    res.send(response);
+  }
+  var response={};
+  response.status=200;
+  response.message="User Updated Successfully";
+  res.send(response);
+
+   });
+}

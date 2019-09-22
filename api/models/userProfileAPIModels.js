@@ -55,7 +55,8 @@ var UserProfileSchema = new Schema({
     default: 0
   },
   address: {
-    type: String
+    type: String,
+    default:""
   }
 });
 
