@@ -2,7 +2,10 @@
 
 
 var mongoose = require('mongoose'),
-  Task = mongoose.model('Tasks');
+Login = mongoose.model('Login'),
+Users = mongose.model('Users');
+
+const jwt= require('jsonwebtoken')
 
 exports.create_a_user = function(req, res) {
   Task.find({}, function(err, task) {
@@ -14,7 +17,8 @@ exports.create_a_user = function(req, res) {
 
 
 exports.signin_user = function(req, res) {
-  var new_task = new Task(req.body);
+  
+  var new_login = new Login(req.body);
   new_task.save(function(err, task) {
     if (err)
       res.send(err);
