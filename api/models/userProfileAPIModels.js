@@ -2,25 +2,8 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var SignUpSchema = new Schema({
-  first_name:{
-     type:String,
-     required: 'Enter your First Name'
-   },
-  last_name:{
-     type:String,
-     required:'Enter your Last Name'
-   },
-  password:{
-     type:Password,
-     required:true,
-     minlength:7
-   },
-  confirm_password:{
-    type:Password,
-    required:true,
-    minlength:7
-  },
+var LoginSchema = new Schema({
+
   email_address: {
     type:String,
     required:true,
@@ -30,13 +13,30 @@ var SignUpSchema = new Schema({
         throw new Error('Email is invalid')
       }
     }
+  },
+  password:{
+     type:Password,
+     required:true,
+     minlength:7
+   },
+  confirm_password:{
+    type:Password,
+    required:true,
+    minlength:7
   }
 });
 
 var UserProfileSchema = new Schema({
-  user_id: {
-    type: String,
-    required: true
+
+  email_address: {
+    type:String,
+    required:true,
+    unique:true,
+    validate(value){
+      if(!validator.isEmail(value)){                        // npm install validator
+        throw new Error('Email is invalid')
+      }
+    }
   },
   first_name: {
     type: String,
@@ -64,8 +64,8 @@ var UserProfileSchema = new Schema({
   }
 });
 
-var signup = mongoose.model('signup', SignUpSchema);
+var login = mongoose.model('login', LoginSchema);
 var user = mongoose.model('user',UserProfileSchema);
 
-module.exports = signup;
+module.exports = login;
 module.exports = user;

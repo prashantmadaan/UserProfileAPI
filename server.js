@@ -5,6 +5,15 @@ var express = require('express'),
   Task = require('./api/models/userProfileAPIModel'), //created model loading here
   bodyParser = require('body-parser');
 
+  app.use(bodyParser.json({
+  l imit: "50mb"
+  }));
+  app.use(bodyParser.urlencoded({
+    limit: "50mb",
+    extended: true,
+    parameterLimit: 50000
+  }));
+
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/UserProfiledb');
