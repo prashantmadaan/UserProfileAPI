@@ -22,7 +22,12 @@
   },
   "dependencies": {
     "express": "^4.17.1",
+<<<<<<< HEAD
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.7.1"
+=======
+    "mongoose": "^5.7.1",
+    "validator": "^11.1.0"
+>>>>>>> 1735461c9084af2597f480d825aa21df3d9f3e80
   }
 }
