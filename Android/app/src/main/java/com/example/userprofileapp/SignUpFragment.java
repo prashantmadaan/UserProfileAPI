@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.userprofileapp.pojo.User;
 
+import java.io.IOException;
 import java.lang.reflect.Parameter;
 
 
@@ -100,7 +101,11 @@ public class SignUpFragment extends Fragment {
                         user.setLname(lastName.getText().toString());
                         user.setEmail(editTextEmail.getText().toString());
                         user.setPassword(password.getText().toString());
-                        new RegisterUser(registerUserURL,getActivity()).execute(user);
+                        try {
+                            new RegisterUser(registerUserURL,getActivity(),user).execute();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
                     }
                 }
