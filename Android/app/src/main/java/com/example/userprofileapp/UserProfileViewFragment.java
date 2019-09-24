@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import android.widget.TextView;
 
 import com.example.userprofileapp.pojo.User;
 
+import java.io.IOException;
+
 public class UserProfileViewFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     View MyFragment;
@@ -24,6 +27,8 @@ public class UserProfileViewFragment extends Fragment {
     TextView age;
     TextView weight;
     TextView address;
+    User user;
+    String userProfileURL = "http://192.168.48.2:3000/userprofile/";
 
     public UserProfileViewFragment() {
         // Required empty public constructor
@@ -49,6 +54,8 @@ public class UserProfileViewFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         MyFragment =inflater.inflate(R.layout.fragment_user_profile_view, container, false);
+        Bundle bundle = getArguments();
+        user = (User)bundle.getSerializable("user");
         return MyFragment;
     }
 
@@ -62,7 +69,21 @@ public class UserProfileViewFragment extends Fragment {
         weight= (TextView)MyFragment.findViewById(R.id.weight_friend);
         address= (TextView)MyFragment.findViewById(R.id.address_friend);
         Button Edit = (Button)MyFragment.findViewById(R.id.back_button_friends);
-        final User user = new User();
+        try {
+           user = new  UserProfile(userProfileURL,getActivity(),user).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+
+
+
+
 
         //call async method to set the text for the view
 
@@ -71,7 +92,7 @@ public class UserProfileViewFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 EditUserProfileFragment.newInstance(user);
-                getFragmentManager().beginTransaction().replace(R.id.containerLogin,new EditUserProfileFragment(),"tag_EditFrag").addToBackStack(null).commit();
+                getFragmentManager().beginTransaction().replace(R.id.container,new EditUserProfileFragment(),"tag_EditFrag").addToBackStack(null).commit();
 
             }
         });

@@ -1,7 +1,6 @@
 package com.example.userprofileapp;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.userprofileapp.pojo.User;
 import com.google.gson.Gson;
@@ -17,32 +16,38 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class RegisterUser {
-
-    String registerUserURL;
+public class EditUserProfile {
+    String editUserProfileURL;
     FragmentActivity context;
     User User;
     String jsonData;
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
-    public RegisterUser(String URL,FragmentActivity con,User user) throws IOException {
-        registerUserURL=URL;
+    public EditUserProfile(String URL,FragmentActivity con,User user) throws IOException {
+        editUserProfileURL=URL;
         context=con;
         User=user;
     }
 
-    public void execute() {
+    public void execute() throws IllegalAccessException {
         Gson gson = new Gson();
         String param = gson.toJson(User);
 
         OkHttpClient client = new OkHttpClient();
 
+        Log.d("chella","Param in EditUserProfile "+param);
+
         RequestBody body = RequestBody.create(JSON, param);
 
+        Log.d("chella","JSON Body "+body.toString());
+
         Request request = new Request.Builder()
-                .url(registerUserURL)
-                .post(body)
+                .url(editUserProfileURL)
+                .put(body)
+                .header("Authorization","Bearer "+User.getToken())
                 .build();
+
+        Log.d("chella","Token in Edit User Profile "+ User.getToken());
 
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -52,28 +57,16 @@ public class RegisterUser {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-              //  Log.d("sheetal",response.body().string());
-                //result[0] =response.body().string();
-               // Log.v(TAG, response.body().string());
-                 jsonData = response.body().string();
+                jsonData = response.body().string();
 
                 Log.d("sheetal","jsondata"+jsonData);
                 if(jsonData.equalsIgnoreCase("success")){
-                    //Toast.makeText(context, "User Registered", Toast.LENGTH_SHORT).show();
-                    context.getSupportFragmentManager().beginTransaction().replace(R.id.container,new LoginFragment(),"tag_LoginFrag").addToBackStack(null).commit();
+                    Log.d("chella","On Success  User Details Updated");
 
                 }else{
-                    //Toast.makeText(context, "Something Went Wrong, Try Again", Toast.LENGTH_SHORT).show();
+                    Log.d("chella","On Failure");
                 }
             }
         });
-
-
-
     }
-
-
-
-
 }
-

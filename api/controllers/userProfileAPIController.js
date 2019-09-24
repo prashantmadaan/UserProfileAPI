@@ -97,8 +97,11 @@ exports.signin_user = function(req, res) {
 
 
 exports.fetch_user_profile = function verifytoken(req,res) {
+console.log("inside fetch user profile");
+console.log("got token back from the android",req.token);
 
-  console.log("inside validate function");
+console.log("req header",req.headers);
+console.log("req header",req.headers['authorization']);
 
   const bearerHeader=req.headers['authorization'];
 
@@ -106,15 +109,17 @@ exports.fetch_user_profile = function verifytoken(req,res) {
     const bearer = bearerHeader.split(" ");
     const bearer_token= bearer[1];
     req.token = bearer_token;
+  //  req.token= bearerHeader;
     console.log("inside bearer");
 
+    console.log(req.token)
     jwt.verify(req.token, 'secretkey',(err,authData)=>{
       if(err){
         res.send(403);
         console.log("forbidden from validate");
       }else{
 //  res.send("validated");
-            getuserProfile(req.body.email,req,res)
+            getuserProfile(req.query.email,req,res)
         //console.log(data);
 
       }
@@ -127,6 +132,7 @@ exports.fetch_user_profile = function verifytoken(req,res) {
 function getuserProfile(email,req,res){
   Users.find({_id : email}, function(error, comments) {
       var response = {};
+      console.log("inside find",);
        if(comments.length){
          console.log("User Found");
          console.log(comments[0]);
@@ -146,9 +152,10 @@ function getuserProfile(email,req,res){
 
 exports.update_user_profile = function(req, res) {
 
+
   console.log("inside validate function");
 
-  const bearerHeader=req.headers['authorization'];
+  const bearerHeader=req.headers['Authorization'];
 
   if(typeof bearerHeader !=="undefined"){
     const bearer = bearerHeader.split(" ");

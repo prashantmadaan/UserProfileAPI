@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import com.example.userprofileapp.pojo.User;
 
+import java.io.IOException;
+
 
 public class LoginFragment extends Fragment {
 
@@ -26,7 +28,7 @@ public class LoginFragment extends Fragment {
     View myFragment;
     EditText email;
     EditText password;
-    String LoginUserURL="";
+    String LoginUserURL="http://192.168.48.2:3000/signin";
 
     public LoginFragment() {
         // Required empty public constructor
@@ -100,7 +102,11 @@ public class LoginFragment extends Fragment {
                     User user =new User();
                     user.setEmail(email.getText().toString());
                     user.setPassword(password.getText().toString());
-                    new LoginUser(LoginUserURL,getActivity()).execute(user);
+                    try {
+                        new LoginUser(LoginUserURL,getActivity(),user).execute();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
