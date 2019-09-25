@@ -2,8 +2,10 @@ package com.example.userprofileapp;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.userprofileapp.pojo.User;
 import com.google.gson.Gson;
@@ -13,6 +15,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -71,18 +74,17 @@ public class LoginUser{
                    jsonObject = new JSONObject(response.body().string());
                    obj = jsonObject.getString("status");
                    message=jsonObject.getString("message");
-                   token = jsonObject.getString("token");
-
                    newUser.setStatus(obj);
-                   newUser.setToken(token);
                    newUser.setMessage(message);
+                   if(newUser.getStatus().equalsIgnoreCase("Success")){
+                   token = jsonObject.getString("token");
+                   newUser.setToken(token);
                    newUser.setEmail(User.getEmail());
-
                    Log.d("chella","Response from Cache "+newUser.getStatus());
                    Log.d("2chella","jsondata "+newUser.getMessage());
                    Log.d("chella","token "+ newUser.getToken());
 
-                   if(newUser.getStatus().equalsIgnoreCase("Success")){
+
                        Log.d("sheetal","in sucees if");
                       // Toast.makeText(context, "User Logged in", Toast.LENGTH_SHORT).show();
                         UserProfileViewFragment userProfileViewFragment = new UserProfileViewFragment();
@@ -92,9 +94,10 @@ public class LoginUser{
                        context.getSupportFragmentManager().beginTransaction().replace(R.id.container,userProfileViewFragment,"userProfile").addToBackStack(null).commit();
 
                    }else{
+                       Looper.prepare();
                        Log.d("sheetal","in sucees else");
-                     //  Toast.makeText(context, "Something Went Wrong, Try Again", Toast.LENGTH_SHORT).show();
-
+                       Toast.makeText((context.getBaseContext()), "User Not Found", Toast.LENGTH_SHORT).show();
+                       Looper.loop();
                    }
 
                } catch (JSONException e) {

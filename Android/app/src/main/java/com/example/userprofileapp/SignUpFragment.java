@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -33,7 +34,7 @@ public class SignUpFragment extends Fragment {
     EditText confirmPassword;
     EditText firstName;
     EditText lastName;
-    String registerUserURL="http://192.168.118.2:3000/signup";
+    String registerUserURL="http://ec2-3-89-187-121.compute-1.amazonaws.com:3000/signup";
 
 
 
@@ -71,6 +72,7 @@ public class SignUpFragment extends Fragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
         super.onActivityCreated(savedInstanceState);
          editTextEmail = (EditText)getActivity().findViewById(R.id.editTextEmailSignup);
          password = (EditText) getActivity().findViewById(R.id.editTextPasswordSignup);

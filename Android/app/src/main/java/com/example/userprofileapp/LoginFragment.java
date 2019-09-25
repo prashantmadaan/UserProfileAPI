@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -28,7 +29,7 @@ public class LoginFragment extends Fragment {
     View myFragment;
     EditText email;
     EditText password;
-    String LoginUserURL="http://192.168.118.2:3000/signin";
+    String LoginUserURL="http://ec2-3-89-187-121.compute-1.amazonaws.com:3000/signin";
 
     public LoginFragment() {
         // Required empty public constructor
@@ -57,6 +58,7 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         myFragment=inflater.inflate(R.layout.fragment_login, container, false);
         return myFragment;
     }
@@ -64,12 +66,11 @@ public class LoginFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-
+        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
         email= (EditText)myFragment.findViewById(R.id.editTextEmail);
         password=(EditText) myFragment.findViewById(R.id.editTextPassword);
         TextView signup = (TextView)myFragment.findViewById(R.id.textViewSignUpLink);
-        TextView forgetPassword = (TextView)myFragment.findViewById(R.id.textViewForgetPassword);
+       // TextView forgetPassword = (TextView)myFragment.findViewById(R.id.textViewForgetPassword);
         Button login = (Button)myFragment.findViewById(R.id.buttonLogin);
 
         signup.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +80,7 @@ public class LoginFragment extends Fragment {
             }
         });
 
-        forgetPassword.setOnClickListener(new View.OnClickListener() {
+        /*forgetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String emailAddress = email.getText().toString();
@@ -91,7 +92,7 @@ public class LoginFragment extends Fragment {
                         //send an email to reset the password
                 }
             }
-        });
+        });*/
 
 
 
@@ -103,6 +104,7 @@ public class LoginFragment extends Fragment {
                     user.setEmail(email.getText().toString());
                     user.setPassword(password.getText().toString());
                     try {
+
                         new LoginUser(LoginUserURL,getActivity(),user).execute();
                     } catch (IOException e) {
                         e.printStackTrace();

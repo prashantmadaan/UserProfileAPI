@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -30,7 +31,7 @@ public class EditUserProfileFragment extends Fragment {
     EditText weight;
     EditText address;
     static User userDetail;
-    String editUserProfileURL = "http://192.168.118.2:3000/userprofile";
+    String editUserProfileURL = "http://ec2-3-89-187-121.compute-1.amazonaws.com:3000/userprofile";
 
     public EditUserProfileFragment() {
         // Required empty public constructor
@@ -64,6 +65,7 @@ public class EditUserProfileFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
         Log.d("sheetal","userdetail"+userDetail);
         fname = (EditText)getActivity().findViewById(R.id.edit_profile_fname);
         lname = (EditText) getActivity().findViewById(R.id.edit_profile_last_name_edittext);

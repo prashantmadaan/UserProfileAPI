@@ -1,5 +1,6 @@
 package com.example.userprofileapp;
 
+import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -59,11 +60,15 @@ public class RegisterUser {
 
                 Log.d("sheetal","jsondata"+jsonData);
                 if(jsonData.equalsIgnoreCase("success")){
-                    //Toast.makeText(context, "User Registered", Toast.LENGTH_SHORT).show();
+                    Looper.prepare();
+                    Toast.makeText(context.getBaseContext(), "User Registered", Toast.LENGTH_SHORT).show();
+                    Looper.loop();
                     context.getSupportFragmentManager().beginTransaction().replace(R.id.container,new LoginFragment(),"tag_LoginFrag").addToBackStack(null).commit();
 
                 }else{
-                    //Toast.makeText(context, "Something Went Wrong, Try Again", Toast.LENGTH_SHORT).show();
+                    Looper.prepare();
+                    Toast.makeText(context, "Something Went Wrong, Try Again", Toast.LENGTH_SHORT).show();
+                    Looper.loop();
                 }
             }
         });

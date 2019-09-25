@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -28,7 +29,7 @@ public class UserProfileViewFragment extends Fragment {
     TextView weight;
     TextView address;
     User user;
-    String userProfileURL = "http://192.168.118.2:3000/userprofile/";
+    String userProfileURL = "http://ec2-3-89-187-121.compute-1.amazonaws.com:3000/userprofile/";
 
     public UserProfileViewFragment() {
         // Required empty public constructor
@@ -62,6 +63,8 @@ public class UserProfileViewFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
 
         fname = (TextView)MyFragment.findViewById(R.id.fname_friend);
         lname = (TextView)MyFragment.findViewById(R.id.lname_friend);
