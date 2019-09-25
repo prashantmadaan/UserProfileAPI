@@ -62,8 +62,8 @@ public class RegisterUser {
                 if(jsonData.equalsIgnoreCase("success")){
                     Looper.prepare();
                     Toast.makeText(context.getBaseContext(), "User Registered", Toast.LENGTH_SHORT).show();
-                    Looper.loop();
                     context.getSupportFragmentManager().beginTransaction().replace(R.id.container,new LoginFragment(),"tag_LoginFrag").addToBackStack(null).commit();
+                    Looper.loop();
 
                 }else{
                     Looper.prepare();
