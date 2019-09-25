@@ -28,7 +28,7 @@ public class UserProfileViewFragment extends Fragment {
     TextView weight;
     TextView address;
     User user;
-    String userProfileURL = "http://192.168.48.2:3000/userprofile/";
+    String userProfileURL = "http://192.168.118.2:3000/userprofile/";
 
     public UserProfileViewFragment() {
         // Required empty public constructor

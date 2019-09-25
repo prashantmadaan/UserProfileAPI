@@ -30,7 +30,7 @@ public class EditUserProfileFragment extends Fragment {
     EditText weight;
     EditText address;
     static User userDetail;
-    String editUserProfileURL = "http://192.168.48.2:3000/userprofile/";
+    String editUserProfileURL = "http://192.168.118.2:3000/userprofile";
 
     public EditUserProfileFragment() {
         // Required empty public constructor
@@ -76,19 +76,19 @@ public class EditUserProfileFragment extends Fragment {
         lname.setText(userDetail.getLname());
 
         if(userDetail.getAge().toString().isEmpty() || userDetail.getAge().toString().equalsIgnoreCase("0") ){
-            age.setText("No information to display");
+            //age.setText("No information to display");
         }else{
             age.setText(userDetail.getAge().toString());
         }
 
-        if(userDetail.getWeight().toString().isEmpty() || userDetail.getWeight().toString().equalsIgnoreCase("0")){
-            weight.setText("No information to display");
+        if(userDetail.getWeight().toString().isEmpty() || userDetail.getWeight().toString().equalsIgnoreCase("0.0")){
+           // weight.setText("No information to display");
         }else{
             weight.setText(userDetail.getWeight().toString());
         }
 
         if(userDetail.getAddress().isEmpty()){
-            address.setText("No information to display");
+            //address.setText("No information to display");
         }else{
             address.setText(userDetail.getAddress());
         }
@@ -97,6 +97,8 @@ public class EditUserProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 //get all details back
+
+
 
                 userDetail.setFname(fname.getText().toString());
                 userDetail.setLname(lname.getText().toString());

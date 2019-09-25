@@ -12,10 +12,9 @@
         android:layout_width="80dp"
         android:layout_height="68dp"
         android:layout_marginStart="141dp"
-        android:layout_marginTop="40dp"
         android:layout_marginEnd="142dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@drawable/user" />
@@ -25,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="44dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="44dp"
         android:text="@string/edit_profile_fname_label"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -134,8 +133,8 @@
         android:id="@+id/edit_profile_save_button"
         android:layout_width="249dp"
         android:layout_height="58dp"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="16dp"
         android:text="@string/SaveButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText_address" />

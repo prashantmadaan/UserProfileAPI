@@ -19,6 +19,7 @@ import okhttp3.Response;
 public class EditUserProfile {
     String editUserProfileURL;
     FragmentActivity context;
+
     User User;
     String jsonData;
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
@@ -47,11 +48,12 @@ public class EditUserProfile {
                 .header("Authorization","Bearer "+User.getToken())
                 .build();
 
-        Log.d("chella","Token in Edit User Profile "+ User.getToken());
+
 
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
+                Log.d("sheetal","call failure"+e.getMessage());
                 call.cancel();
             }
 

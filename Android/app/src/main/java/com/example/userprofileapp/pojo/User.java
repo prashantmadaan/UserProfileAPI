@@ -15,6 +15,8 @@ public class User implements Serializable {
     String status;
     String message;
 
+
+
     public String getMessage() {
         return message;
     }
@@ -55,8 +57,6 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public User() {
-    }
 
     public String getUserId() {
         return userId;
@@ -104,6 +104,10 @@ public class User implements Serializable {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+
+    public User() {
     }
 
 

@@ -16,12 +16,12 @@ import java.io.IOException;
 import androidx.fragment.app.FragmentActivity;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import static com.example.userprofileapp.RegisterUser.JSON;
 
 public class LoginUser{
 
@@ -35,6 +35,7 @@ public class LoginUser{
     SharedPreferences.Editor editor;
     Response res;
     User newUser= new User();
+    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     public LoginUser(String URL,FragmentActivity con,User user) throws IOException {
 

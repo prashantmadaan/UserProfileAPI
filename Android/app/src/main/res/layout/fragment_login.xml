@@ -128,7 +128,6 @@
         <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/user_profile_image_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.448"
             app:layout_constraintStart_toStartOf="parent"

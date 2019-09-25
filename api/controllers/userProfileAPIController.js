@@ -152,10 +152,10 @@ function getuserProfile(email,req,res){
 
 exports.update_user_profile = function(req, res) {
 
-
+console.log("update user profile");
   console.log("inside validate function");
 
-  const bearerHeader=req.headers['Authorization'];
+  const bearerHeader=req.headers['authorization'];
 
   if(typeof bearerHeader !=="undefined"){
     const bearer = bearerHeader.split(" ");
@@ -170,7 +170,7 @@ exports.update_user_profile = function(req, res) {
       }else{
 //  res.send("validated");
             console.log(req.body);
-            updateuserProfile(req.body.user,req,res)
+            updateuserProfile(req.body,req,res)
         //console.log(data);
 
       }
@@ -182,8 +182,6 @@ exports.update_user_profile = function(req, res) {
 
 
 function updateuserProfile(user,req,res){
-  console.log(user["email"]);
-  console.log(user.email);
   Users.findOneAndUpdate({_id : user.email},{
     first_name:user.first_name,
     last_name:user.last_name,
