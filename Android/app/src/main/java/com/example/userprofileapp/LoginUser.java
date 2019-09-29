@@ -1,5 +1,6 @@
 package com.example.userprofileapp;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Looper;
@@ -15,7 +16,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -55,7 +55,7 @@ public class LoginUser{
         OkHttpClient client = new OkHttpClient();
 
         RequestBody body = RequestBody.create(JSON, param);
-
+        Log.d("pm_log",param);
         Request request = new Request.Builder()
                 .url(LoginUserURL)
                 .post(body)
@@ -91,11 +91,13 @@ public class LoginUser{
                         Bundle b = new Bundle();
                         b.putSerializable("user",newUser);
                         userProfileViewFragment.setArguments(b);
-                       context.getSupportFragmentManager().beginTransaction().replace(R.id.container,userProfileViewFragment,"userProfile").addToBackStack(null).commit();
-
+                       //context.getSupportFragmentManager().beginTransaction().replace(R.id.container,userProfileViewFragment,"userProfile").addToBackStack(null).commit();
+                       Intent intent = new Intent(((MainActivity)context),PlaymentActivityHome.class);
+                       intent.putExtra("TOKEN",token);
+                       context.startActivity(intent);
                    }else{
                        Looper.prepare();
-                       Log.d("sheetal","in sucees else");
+                       Log.d("sheetal","in sucees else"+jsonObject);
                        Toast.makeText((context.getBaseContext()), "User Not Found", Toast.LENGTH_SHORT).show();
                        Looper.loop();
                    }

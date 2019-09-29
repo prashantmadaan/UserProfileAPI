@@ -33,6 +33,7 @@ import retrofit2.Retrofit;
 public class PlaymentActivityHome extends AppCompatActivity {
 
     String token;
+    String app_token;
     private static final int REQUEST_CODE=1234;
 
     Button payButton;
@@ -48,7 +49,10 @@ public class PlaymentActivityHome extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playment_home);
-        myAPI= RetrofitClient.getInstance().create(IBrainTreeAPI.class);
+
+        app_token=getIntent().getStringExtra("TOKEN");
+
+        myAPI= RetrofitClient.getInstance(app_token).create(IBrainTreeAPI.class);
 
         paymentLayout= (ConstraintLayout) findViewById(R.id.payment_group);
 

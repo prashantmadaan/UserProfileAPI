@@ -27,9 +27,9 @@ public class MainActivity extends AppCompatActivity implements
         }
 
         //Login Frag
-       // getSupportFragmentManager().beginTransaction().add(R.id.container,new LoginFragment(),"tag_LoginFrag").addToBackStack(null).commit();
-        Intent intent = new Intent(this,PlaymentActivityHome.class);
-        startActivity(intent);
+        getSupportFragmentManager().beginTransaction().add(R.id.container,new LoginFragment(),"tag_LoginFrag").addToBackStack(null).commit();
+//        Intent intent = new Intent(this,PlaymentActivityHome.class);
+//        startActivity(intent);
 
     }
 
