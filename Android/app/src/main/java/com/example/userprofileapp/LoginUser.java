@@ -91,8 +91,10 @@ public class LoginUser{
                         Bundle b = new Bundle();
                         b.putSerializable("user",newUser);
                         userProfileViewFragment.setArguments(b);
-                       context.getSupportFragmentManager().beginTransaction().replace(R.id.container,userProfileViewFragment,"userProfile").addToBackStack(null).commit();
+                      // context.getSupportFragmentManager().beginTransaction().replace(R.id.container,userProfileViewFragment,"userProfile").addToBackStack(null).commit();
 
+                       ProductFragment.newInstance(newUser.getToken());
+                       context.getSupportFragmentManager().beginTransaction().replace(R.id.container,new ProductFragment(),"product").addToBackStack(null).commit();
                    }else{
                        Looper.prepare();
                        Log.d("sheetal","in sucees else");

@@ -1,6 +1,7 @@
 package com.example.userprofileapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -15,6 +16,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.userprofileapp.pojo.Product;
+
+import java.util.List;
+
 
 public class CheckoutDetailsFragment extends Fragment {
 
@@ -22,6 +27,9 @@ public class CheckoutDetailsFragment extends Fragment {
     private RecyclerView checkoutRecyclerView;
     private RecyclerView.Adapter checkoutAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    static List<Product> addedProducts;
+    static  String token;
+    double totalCost=0.0;
 
     private OnFragmentInteractionListener mListener;
 
@@ -30,10 +38,12 @@ public class CheckoutDetailsFragment extends Fragment {
     }
 
     // TODO: Rename and change types and number of parameters
-    public static CheckoutDetailsFragment newInstance(String param1, String param2) {
+    public static CheckoutDetailsFragment newInstance(String t,List<Product> products) {
         CheckoutDetailsFragment fragment = new CheckoutDetailsFragment();
         Bundle args = new Bundle();
+        addedProducts=products;
         fragment.setArguments(args);
+        token=t;
         return fragment;
     }
 
@@ -59,16 +69,29 @@ public class CheckoutDetailsFragment extends Fragment {
         TextView total = root.findViewById(R.id.total_value);
         Button pay = root.findViewById(R.id.payButton);
 
-        checkoutRecyclerView = (RecyclerView)root.findViewById(R.id.products_list);
+        for(Product product: addedProducts){
+            totalCost+=product.getProductPrice();
+        }
+        total.setText(String.valueOf(totalCost));
+
+
+
+        checkoutRecyclerView = (RecyclerView)root.findViewById(R.id.productCheckoutList);
         checkoutRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
         checkoutRecyclerView.setLayoutManager(mLayoutManager);
+        checkoutAdapter= new CartAdapter(addedProducts);
+        checkoutRecyclerView.setAdapter(checkoutAdapter);
+        checkoutAdapter.notifyDataSetChanged();
 
 
         pay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(getActivity(),PlaymentActivityHome.class);
+                intent.putExtra("TOKEN",token);
+                intent.putExtra("TOTAL_AMOUNT",totalCost);
+                getActivity().startActivity(intent);
             }
         });
     }

@@ -34,7 +34,7 @@ public class SignUpFragment extends Fragment {
     EditText confirmPassword;
     EditText firstName;
     EditText lastName;
-    String registerUserURL="http://ec2-3-89-187-121.compute-1.amazonaws.com:3000/signup";
+    String registerUserURL="http://192.168.118.2:3000/signup";
 
 
 

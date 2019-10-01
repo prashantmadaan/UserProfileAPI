@@ -2,7 +2,9 @@ package com.example.userprofileapp;
 
 
 import android.media.Image;
+import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -19,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.RecyclerView;
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -33,21 +37,29 @@ public class ProductAPI {
     Product product;
     String jsonData;
     List<Product> products = new ArrayList<>();
+    List<Product> prod_list;
+    private RecyclerView.Adapter prodAdapters;
+
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
-    public ProductAPI(String URL,FragmentActivity con,Product prod) throws IOException {
+    public ProductAPI(String URL,FragmentActivity con,RecyclerView.Adapter prodAdapter, List<Product> prods) throws IOException {
         productURL=URL;
         context=con;
-        product=prod;
+        product= new Product();
+        prodAdapters=prodAdapter;
+        prod_list=prods;
     }
 
-    public List<Product> execute() {
-        Gson gson = new Gson();
-        String param = gson.toJson(product);
+ //   public List<Product> execute() {
+ public void execute() {
+
+     Log.d("sheetal", "hit the product execute");
+       // Gson gson = new Gson();
+       // String param = gson.toJson(product);
 
         OkHttpClient client = new OkHttpClient();
 
-        RequestBody body = RequestBody.create(JSON, param);
+      //  RequestBody body = RequestBody.create(JSON, param);
 
         Request request = new Request.Builder()
                 .url(productURL)
@@ -57,35 +69,53 @@ public class ProductAPI {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
+                Log.d("sheetal", "call fail"+e.getMessage());
                 call.cancel();
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 jsonData = response.body().string();
-                Log.d("chella", "jsondata" + jsonData);
-                if (jsonData.equalsIgnoreCase("success")) {
-                    try {
-                        JSONObject jsonObject = new JSONObject(jsonData);
-                        JSONArray jsonArray = jsonObject.getJSONArray("results");
+                Log.d("sheetal", "jsondata" + jsonData);
+                JSONObject jsonObject=null;
+                try{
+                     jsonObject = new JSONObject(jsonData);
+                   // Log.d("sheetal",e.getMessage());
+                if (jsonObject.getString("status").equalsIgnoreCase("200")) {
+                        JSONArray jsonArray = jsonObject.getJSONArray("data");
+                        Log.d("sheetal","jsonArray"+ jsonArray);
                         for(int i =0; i<jsonArray.length();i++) {
                             JSONObject prod = jsonArray.getJSONObject(i);
-                            product.setDiscount(prod.getInt("discount"));
-                            product.setProductName(prod.getString("name"));
+                            Product prods = new Product();
+                            prods.setDiscount(prod.getInt("discount"));
+                            prods.setProductName(prod.getString("name"));
                             //product.setProductImage(jsondataObject.getString("photo"));
-                            product.setProductPrice(prod.getDouble("price"));
-                            product.setCategory(prod.getString("region"));
-                            products.add(product);
+                            prods.setProductPrice(prod.getDouble("price"));
+                            prods.setCategory(prod.getString("region"));
+                            products.add(prods);
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+
+
+                    Handler handler = new Handler(Looper.getMainLooper()) {
+                        @Override
+                        public void handleMessage(Message msg) {
+                            // Any UI task, example
+                            prod_list.addAll(products);
+                            prodAdapters.notifyDataSetChanged();
+                        }
+                    };
+                    handler.sendEmptyMessage(1);
+
+
+                        Log.d("sheetal","products list"+products.size());
                 } else {
                     Log.d("chella","Error in retrieving the JSONDATA");
                 }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        });
-        return products;
+        }});
+     //   return products;
     }
 
 }

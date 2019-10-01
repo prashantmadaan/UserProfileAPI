@@ -1,6 +1,7 @@
 package com.example.userprofileapp;
 
 import android.media.Image;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -18,13 +19,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
 
-    List<Product> productList;
+    List<Product> productList= new ArrayList<>();
     int counter=0;
-    prodInterface object;
-    List<Product> selectedProduct = new ArrayList<>();
+    //prodInterface object=;
+    List<Product> selectedProduct;
 
-    public ProductAdapter(List<Product> productList) {
-        this.productList = productList;
+    public ProductAdapter(List<Product> productLists, List<Product> cartProds) {
+
+        productList = productLists;
+        selectedProduct=cartProds;
     }
 
     @NonNull
@@ -37,6 +40,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Log.d("sheetal","products list"+ productList.toString());
         final Product product = productList.get(position);
         holder.prodName.setText(product.getProductName());
         holder.prodPrice.setText(product.getProductPrice().toString());
@@ -46,10 +50,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             public void onClick(View view) {
                 counter=counter+1;
                 selectedProduct.add(product);
-                object.setCounter(counter,selectedProduct);
+            //    object.setCounter(counter,selectedProduct);
 
             }
         });
+     //   notifyDataSetChanged();
     }
 
     @Override
@@ -70,7 +75,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             add = itemView.findViewById(R.id.addButton);
         }
     }
-    public interface prodInterface{
-        public void setCounter(int counter, List<Product> product);
-    }
+//    public interface prodInterface{
+//        public void setCounter(int counter, List<Product> product);
+//    }
 }

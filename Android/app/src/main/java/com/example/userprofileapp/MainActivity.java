@@ -13,10 +13,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.userprofileapp.pojo.Product;
+
+import java.util.List;
+
 import static androidx.core.content.ContextCompat.getSystemService;
 
 public class MainActivity extends AppCompatActivity implements
-   LoginFragment.OnFragmentInteractionListener,SignUpFragment.OnFragmentInteractionListener,UserProfileViewFragment.OnFragmentInteractionListener,EditUserProfileFragment.OnFragmentInteractionListener {
+   CheckoutDetailsFragment.OnFragmentInteractionListener,ProductFragment.OnFragmentInteractionListener,LoginFragment.OnFragmentInteractionListener,SignUpFragment.OnFragmentInteractionListener,UserProfileViewFragment.OnFragmentInteractionListener,EditUserProfileFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +31,9 @@ public class MainActivity extends AppCompatActivity implements
         }
 
         //Login Frag
-       // getSupportFragmentManager().beginTransaction().add(R.id.container,new LoginFragment(),"tag_LoginFrag").addToBackStack(null).commit();
-        Intent intent = new Intent(this,PlaymentActivityHome.class);
-        startActivity(intent);
+        getSupportFragmentManager().beginTransaction().add(R.id.container,new LoginFragment(),"tag_LoginFrag").addToBackStack(null).commit();
+        /*Intent intent = new Intent(this,PlaymentActivityHome.class);
+        startActivity(intent);*/
 
     }
 
@@ -66,5 +70,10 @@ public class MainActivity extends AppCompatActivity implements
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void onFragmentInteraction(List<Product> products) {
+
     }
 }

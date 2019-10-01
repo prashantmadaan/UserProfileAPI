@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +17,13 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.userprofileapp.pojo.Product;
+import com.example.userprofileapp.pojo.User;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-public class ProductFragment extends Fragment implements ProductAdapter.prodInterface {
+//implements ProductAdapter.prodInterface
+public class ProductFragment extends Fragment  {
 
     View root;
     Product product;
@@ -31,7 +33,8 @@ public class ProductFragment extends Fragment implements ProductAdapter.prodInte
     private RecyclerView.LayoutManager layoutManager;
     List<Product> productList = new ArrayList<>();
     List<Product> selectedProducts = new ArrayList<>();
-    String productURL = "http://ec2-3-89-187-121.compute-1.amazonaws.com:3000/xxxxxxxx";
+    String productURL = "http://192.168.118.2:3000/products";
+    static String token;
 
     private OnFragmentInteractionListener mListener;
 
@@ -40,10 +43,11 @@ public class ProductFragment extends Fragment implements ProductAdapter.prodInte
     }
 
     // TODO: Rename and change types and number of parameters
-    public static ProductFragment newInstance(String param1, String param2) {
+    public static ProductFragment newInstance(String t) {
         ProductFragment fragment = new ProductFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
+        token=t;
         return fragment;
     }
 
@@ -65,13 +69,6 @@ public class ProductFragment extends Fragment implements ProductAdapter.prodInte
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        try {
-            productList = new ProductAPI(productURL,getActivity(),product).execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         ImageButton cart = root.findViewById(R.id.cart);
         cart_count = root.findViewById(R.id.cart_count);
 
@@ -79,14 +76,26 @@ public class ProductFragment extends Fragment implements ProductAdapter.prodInte
         prodRecyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getContext());
         prodRecyclerView.setLayoutManager(layoutManager);
+        prodAdapter = new ProductAdapter(productList,selectedProducts);
+        prodRecyclerView.setAdapter(prodAdapter);
+        //prodAdapter.notifyDataSetChanged();
 
-        if(!productList.isEmpty()) {
-            prodAdapter = new ProductAdapter(productList);
-            prodAdapter.notifyDataSetChanged();
+        try {
+            new ProductAPI(productURL,getActivity(),prodAdapter,productList).execute();
+         //   prodAdapter.notifyDataSetChanged();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
+
+//        if(!productList.isEmpty()) {
+//        }else{
+//            Log.d("sheetal","Product List is empty");
+//        }
         cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                CheckoutDetailsFragment.newInstance(token,selectedProducts);
                 getFragmentManager().beginTransaction().replace(R.id.container,new CheckoutDetailsFragment()).commit();
             }
         });
@@ -116,12 +125,12 @@ public class ProductFragment extends Fragment implements ProductAdapter.prodInte
         mListener = null;
     }
 
-    @Override
+   /* @Override
     public void setCounter(int counter, List<Product> selectedProductList) {
         cart_count.setText(counter);
         selectedProducts = selectedProductList;
     }
-
+*/
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(List<Product> products);

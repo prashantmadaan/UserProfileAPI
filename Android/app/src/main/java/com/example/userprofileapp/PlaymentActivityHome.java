@@ -33,12 +33,14 @@ import retrofit2.Retrofit;
 public class PlaymentActivityHome extends AppCompatActivity {
 
     String token;
+    String app_token;
     private static final int REQUEST_CODE=1234;
 
     Button payButton;
-    EditText amount;
+    TextView amount;
     ConstraintLayout paymentLayout;
     LinearLayout waitingLayout;
+    Double amt;
 
     IBrainTreeAPI myAPI;
 
@@ -48,7 +50,11 @@ public class PlaymentActivityHome extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playment_home);
-        myAPI= RetrofitClient.getInstance().create(IBrainTreeAPI.class);
+
+        app_token=getIntent().getStringExtra("TOKEN");
+        amt=getIntent().getDoubleExtra("TOTAL_AMOUNT",0.0);
+
+        myAPI= RetrofitClient.getInstance(app_token).create(IBrainTreeAPI.class);
 
         paymentLayout= (ConstraintLayout) findViewById(R.id.payment_group);
 
@@ -57,7 +63,8 @@ public class PlaymentActivityHome extends AppCompatActivity {
 
         payButton = (Button) findViewById(R.id.payment_activity_pay_button);
 
-        amount=(EditText) findViewById(R.id.payment_activity_amount_editText);
+        amount=(TextView) findViewById(R.id.payment_activity_amount_editText);
+        amount.setText(amt.toString());
 
         payButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,6 +121,7 @@ public class PlaymentActivityHome extends AppCompatActivity {
                 // After having nonce, we just made a payment with API
                 if(!TextUtils.isEmpty(amount.getText().toString())){
                     String amount_text = amount.getText().toString();
+                    Log.d("sheetal","amount"+amount_text);
                     compositeDisposable.add(myAPI
                                             .submitPayment(amount_text,nonce.getNonce())
                                             .subscribeOn(Schedulers.io())
