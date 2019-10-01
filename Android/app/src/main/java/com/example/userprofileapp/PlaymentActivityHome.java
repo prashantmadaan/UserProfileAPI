@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -20,8 +21,11 @@ import com.braintreepayments.api.dropin.DropInResult;
 import com.braintreepayments.api.models.PaymentMethodNonce;
 import com.example.userprofileapp.model.BrainTreeToken;
 import com.example.userprofileapp.model.BrainTreeTransaction;
+import com.example.userprofileapp.pojo.Product;
 import com.example.userprofileapp.retrofit.IBrainTreeAPI;
 import com.example.userprofileapp.retrofit.RetrofitClient;
+
+import java.util.List;
 
 import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -30,7 +34,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
 
-public class PlaymentActivityHome extends AppCompatActivity {
+public class PlaymentActivityHome extends AppCompatActivity implements ProductFragment.OnFragmentInteractionListener, CheckoutDetailsFragment.OnFragmentInteractionListener {
 
     String token;
     String app_token;
@@ -124,7 +128,7 @@ public class PlaymentActivityHome extends AppCompatActivity {
                     Log.d("sheetal","amount"+amount_text);
                     Log.d("chella","Nonce "+ nonce.getNonce());
                     compositeDisposable.add(myAPI
-                                            .submitPayment(amount_text,nonce.getNonce())
+                                            .submitPayment(String.valueOf(Math.round(amt)),nonce.getNonce())
                                             .subscribeOn(Schedulers.io())
                                             .observeOn(AndroidSchedulers.mainThread())
                                             .subscribe(new Consumer<BrainTreeTransaction>() {
@@ -132,6 +136,9 @@ public class PlaymentActivityHome extends AppCompatActivity {
                                                 public void accept(BrainTreeTransaction brainTreeTransaction) throws Exception {
                                                     if (brainTreeTransaction.isSuccess()){
                                                         Toast.makeText(PlaymentActivityHome.this,"" + brainTreeTransaction.getTransaction().getId(),Toast.LENGTH_SHORT).show();
+                                                        ProductFragment.newInstance(app_token,"PAYMENT");
+                                                        getSupportFragmentManager().beginTransaction().add(R.id.container_payment,new ProductFragment(),"product").addToBackStack(null).commit();
+
                                                     }else{
                                                         Toast.makeText(PlaymentActivityHome.this,"Payment Failed",Toast.LENGTH_SHORT).show();
                                                     }
@@ -147,6 +154,16 @@ public class PlaymentActivityHome extends AppCompatActivity {
                 }
             }
         }
+
+    }
+
+    @Override
+    public void onFragmentInteraction(List<Product> products) {
+
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
 
     }
 }

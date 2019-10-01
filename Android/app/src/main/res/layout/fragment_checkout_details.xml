@@ -5,6 +5,7 @@
     android:id="@+id/checkoutproducts"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bt_white_pressed"
     tools:context=".CheckoutDetailsFragment" >
 
     <TextView

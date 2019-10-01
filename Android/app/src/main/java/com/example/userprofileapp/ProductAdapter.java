@@ -20,14 +20,17 @@ import androidx.recyclerview.widget.RecyclerView;
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
 
     List<Product> productList= new ArrayList<>();
-    int counter=0;
-    //prodInterface object=;
+    static int counter=0;
+    prodInterface object;
     List<Product> selectedProduct;
+    String fragment_tag;
 
-    public ProductAdapter(List<Product> productLists, List<Product> cartProds) {
+    public ProductAdapter(List<Product> productLists, List<Product> cartProds,prodInterface object,String tag) {
 
         productList = productLists;
         selectedProduct=cartProds;
+        this.object=object;
+        fragment_tag=tag;
     }
 
     @NonNull
@@ -40,6 +43,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        if(fragment_tag == "PAYMENT"){
+            counter=0;
+            Log.d("chella","Coming after payment: "+counter);
+        }
         Log.d("sheetal","products list"+ productList.toString());
         final Product product = productList.get(position);
         holder.prodName.setText(product.getProductName());
@@ -50,12 +57,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             public void onClick(View view) {
                 counter=counter+1;
                 selectedProduct.add(product);
-            //    object.setCounter(counter,selectedProduct);
+                Log.d("chella","Counter: "+counter);
+                Log.d("chella","Selected Products: "+selectedProduct);
+                object.setCounter(counter);
 
             }
         });
      //   notifyDataSetChanged();
     }
+
 
     @Override
     public int getItemCount() {
@@ -75,7 +85,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             add = itemView.findViewById(R.id.addButton);
         }
     }
-//    public interface prodInterface{
-//        public void setCounter(int counter, List<Product> product);
-//    }
+    public interface prodInterface{
+        public void setCounter(int counter);
+    }
 }

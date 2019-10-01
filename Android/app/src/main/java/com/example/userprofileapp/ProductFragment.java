@@ -23,9 +23,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 //implements ProductAdapter.prodInterface
-public class ProductFragment extends Fragment  {
+public class ProductFragment extends Fragment implements ProductAdapter.prodInterface  {
 
     View root;
+    static String fragment_tag;
     Product product;
     TextView cart_count;
     private RecyclerView prodRecyclerView;
@@ -35,6 +36,7 @@ public class ProductFragment extends Fragment  {
     List<Product> selectedProducts = new ArrayList<>();
     String productURL = "http://192.168.48.2:3000/products";
     static String token;
+    int product_added =0;
 
     private OnFragmentInteractionListener mListener;
 
@@ -43,11 +45,12 @@ public class ProductFragment extends Fragment  {
     }
 
     // TODO: Rename and change types and number of parameters
-    public static ProductFragment newInstance(String t) {
+    public static ProductFragment newInstance(String t, String tag) {
         ProductFragment fragment = new ProductFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         token=t;
+        fragment_tag=tag;
         return fragment;
     }
 
@@ -71,12 +74,19 @@ public class ProductFragment extends Fragment  {
         super.onActivityCreated(savedInstanceState);
         ImageButton cart = root.findViewById(R.id.cart);
         cart_count = root.findViewById(R.id.cart_count);
+        if(fragment_tag == "PAYMENT"){
+            product_added=0;
+            Log.d("chella","Coming after payment: "+product_added);
+        }
+        if(product_added>0){
+            cart_count.setText(Integer.toString(product_added));
+        }
 
         prodRecyclerView = (RecyclerView)root.findViewById(R.id.products_list);
         prodRecyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getContext());
         prodRecyclerView.setLayoutManager(layoutManager);
-        prodAdapter = new ProductAdapter(productList,selectedProducts);
+        prodAdapter = new ProductAdapter(productList,selectedProducts,this,fragment_tag);
         prodRecyclerView.setAdapter(prodAdapter);
         //prodAdapter.notifyDataSetChanged();
 
@@ -96,7 +106,12 @@ public class ProductFragment extends Fragment  {
             @Override
             public void onClick(View view) {
                 CheckoutDetailsFragment.newInstance(token,selectedProducts);
-                getFragmentManager().beginTransaction().replace(R.id.container,new CheckoutDetailsFragment()).commit();
+                if(fragment_tag == "HOME") {
+                    getFragmentManager().beginTransaction().replace(R.id.container, new CheckoutDetailsFragment()).addToBackStack(null).commit();
+                }
+                else if(fragment_tag == "PAYMENT"){
+                    getFragmentManager().beginTransaction().replace(R.id.container_payment, new CheckoutDetailsFragment()).addToBackStack(null).commit();
+                }
             }
         });
     }
@@ -125,12 +140,15 @@ public class ProductFragment extends Fragment  {
         mListener = null;
     }
 
-   /* @Override
-    public void setCounter(int counter, List<Product> selectedProductList) {
-        cart_count.setText(counter);
-        selectedProducts = selectedProductList;
+    @Override
+    public void setCounter(int counter) {
+
+        Log.d("chella","Counter value in Fragment "+counter);
+        product_added=counter;
+        cart_count.setText(Integer.toString(product_added));
     }
-*/
+
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(List<Product> products);

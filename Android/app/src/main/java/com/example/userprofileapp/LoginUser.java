@@ -93,7 +93,7 @@ public class LoginUser{
                         userProfileViewFragment.setArguments(b);
                       // context.getSupportFragmentManager().beginTransaction().replace(R.id.container,userProfileViewFragment,"userProfile").addToBackStack(null).commit();
 
-                       ProductFragment.newInstance(newUser.getToken());
+                       ProductFragment.newInstance(newUser.getToken(),"HOME");
                        context.getSupportFragmentManager().beginTransaction().replace(R.id.container,new ProductFragment(),"product").addToBackStack(null).commit();
                    }else{
                        Looper.prepare();
