@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,10 +30,11 @@ public class LoginFragment extends Fragment {
     View myFragment;
     EditText email;
     EditText password;
-    String LoginUserURL="http://192.168.118.2:3000/signin";
+    String LoginUserURL="http://192.168.48.2:3000/signin";
 
     public LoginFragment() {
         // Required empty public constructor
+        Log.d("chella","Login URL : "+LoginUserURL);
     }
 
 

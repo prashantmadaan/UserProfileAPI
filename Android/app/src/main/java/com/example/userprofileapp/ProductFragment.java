@@ -33,7 +33,7 @@ public class ProductFragment extends Fragment  {
     private RecyclerView.LayoutManager layoutManager;
     List<Product> productList = new ArrayList<>();
     List<Product> selectedProducts = new ArrayList<>();
-    String productURL = "http://192.168.118.2:3000/products";
+    String productURL = "http://192.168.48.2:3000/products";
     static String token;
 
     private OnFragmentInteractionListener mListener;
@@ -81,7 +81,7 @@ public class ProductFragment extends Fragment  {
         //prodAdapter.notifyDataSetChanged();
 
         try {
-            new ProductAPI(productURL,getActivity(),prodAdapter,productList).execute();
+            new ProductAPI(productURL,getActivity(),prodAdapter,productList,token).execute();
          //   prodAdapter.notifyDataSetChanged();
         } catch (IOException e) {
             e.printStackTrace();

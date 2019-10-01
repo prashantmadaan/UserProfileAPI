@@ -122,6 +122,7 @@ public class PlaymentActivityHome extends AppCompatActivity {
                 if(!TextUtils.isEmpty(amount.getText().toString())){
                     String amount_text = amount.getText().toString();
                     Log.d("sheetal","amount"+amount_text);
+                    Log.d("chella","Nonce "+ nonce.getNonce());
                     compositeDisposable.add(myAPI
                                             .submitPayment(amount_text,nonce.getNonce())
                                             .subscribeOn(Schedulers.io())

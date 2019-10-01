@@ -15,7 +15,7 @@ public class RetrofitClient {
 
     public static Retrofit getInstance(String token){
         if (instance==null){
-            instance= new Retrofit.Builder().baseUrl("http://192.168.118.2:3000/")
+            instance= new Retrofit.Builder().baseUrl("http://192.168.48.2:3000/")
                     .client(provideOkHttpClient(token))
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())

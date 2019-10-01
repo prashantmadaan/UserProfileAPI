@@ -39,15 +39,17 @@ public class ProductAPI {
     List<Product> products = new ArrayList<>();
     List<Product> prod_list;
     private RecyclerView.Adapter prodAdapters;
+    String bearerToken;
 
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
-    public ProductAPI(String URL,FragmentActivity con,RecyclerView.Adapter prodAdapter, List<Product> prods) throws IOException {
+    public ProductAPI(String URL,FragmentActivity con,RecyclerView.Adapter prodAdapter, List<Product> prods,String token) throws IOException {
         productURL=URL;
         context=con;
         product= new Product();
         prodAdapters=prodAdapter;
         prod_list=prods;
+        bearerToken =token;
     }
 
  //   public List<Product> execute() {
@@ -64,6 +66,7 @@ public class ProductAPI {
         Request request = new Request.Builder()
                 .url(productURL)
                 .get()
+                .header("Authorization","Bearer "+bearerToken)
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
