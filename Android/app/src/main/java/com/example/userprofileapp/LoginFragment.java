@@ -2,6 +2,7 @@ package com.example.userprofileapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -10,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +33,8 @@ public class LoginFragment extends Fragment {
     EditText email;
     EditText password;
     String LoginUserURL="http://192.168.48.2:3000/signin";
+    String authToken;
+    SharedPreferences sharedPreferences;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -50,11 +54,24 @@ public class LoginFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-
         }
     }
 
-
+    @Override
+    public void onStart() {
+        super.onStart();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        authToken = sharedPreferences.getString("TOKEN","Default String");
+        Log.d("chella","Auth Token in Login :"+ authToken.isEmpty());
+        Log.d("chella","In Login auth is :" + authToken.equalsIgnoreCase("Default String"));
+        Log.d("chella","Token from Login :"+authToken);
+        if(authToken.isEmpty() != false|| authToken.equalsIgnoreCase("Default String")==false)
+        {
+            Log.d("chella","Inside the if condition");
+            ProductFragment.newInstance(authToken,"HOME");
+            getFragmentManager().beginTransaction().replace(R.id.container,new ProductFragment(),"product").addToBackStack(null).commit();
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -81,22 +98,6 @@ public class LoginFragment extends Fragment {
                 getFragmentManager().beginTransaction().replace(R.id.containerLogin, new SignUpFragment(), "tag_signupFrag").addToBackStack(null).commit();
             }
         });
-
-        /*forgetPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String emailAddress = email.getText().toString();
-                if(emailAddress =="" || emailAddress.isEmpty()){
-                    Toast.makeText(getActivity(), "Enter your email to reset password",
-                            Toast.LENGTH_SHORT).show();
-                    email.setError("Enter your email to reset password");
-                }else{
-                        //send an email to reset the password
-                }
-            }
-        });*/
-
-
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,5 +1,6 @@
 package com.example.userprofileapp;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Looper;
@@ -34,7 +35,7 @@ public class LoginUser{
     String jsonData,obj,token,message;
     Boolean flag;
     JSONObject jsonObject;
-    SharedPreferences sharedPreferences ;
+    SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     Response res;
     User newUser= new User();
@@ -45,8 +46,7 @@ public class LoginUser{
         LoginUserURL=URL;
         context=con;
         User=user;
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);;
-        editor =PreferenceManager.getDefaultSharedPreferences(context).edit();
+
     }
     public void execute() {
         Gson gson = new Gson();
@@ -69,6 +69,9 @@ public class LoginUser{
 
            @Override
             public void onResponse(Call call, Response response) throws IOException {
+
+                sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+               editor =PreferenceManager.getDefaultSharedPreferences(context).edit();
 
                try {
                    jsonObject = new JSONObject(response.body().string());
@@ -94,6 +97,10 @@ public class LoginUser{
                       // context.getSupportFragmentManager().beginTransaction().replace(R.id.container,userProfileViewFragment,"userProfile").addToBackStack(null).commit();
 
                        ProductFragment.newInstance(newUser.getToken(),"HOME");
+                       editor.putString("TOKEN",newUser.getToken());
+                       editor.apply();
+                       
+                       Log.d("chella","Shared Pref :"+ sharedPreferences.getString("TOKEN","default"));
                        context.getSupportFragmentManager().beginTransaction().replace(R.id.container,new ProductFragment(),"product").addToBackStack(null).commit();
                    }else{
                        Looper.prepare();

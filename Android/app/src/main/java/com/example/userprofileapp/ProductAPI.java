@@ -2,6 +2,7 @@ package com.example.userprofileapp;
 
 
 import android.media.Image;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -92,10 +93,13 @@ public class ProductAPI {
                             Product prods = new Product();
                             prods.setDiscount(prod.getInt("discount"));
                             prods.setProductName(prod.getString("name"));
-                            //product.setProductImage(jsondataObject.getString("photo"));
+                            //prods.setProductImage(Uri.parse(prod.getString("photo")));
+                            Log.d("chella","Product Image :"+prods.getProductImage());
                             prods.setProductPrice(prod.getDouble("price"));
                             prods.setCategory(prod.getString("region"));
                             products.add(prods);
+                            //Log.d("chella","item in prods: "+prods.getProductImage());
+
                         }
 
 
@@ -104,11 +108,11 @@ public class ProductAPI {
                         public void handleMessage(Message msg) {
                             // Any UI task, example
                             prod_list.addAll(products);
+                            //Log.d("chella","Product List on parsing the JSON "+prod_list);
                             prodAdapters.notifyDataSetChanged();
                         }
                     };
                     handler.sendEmptyMessage(1);
-
 
                         Log.d("sheetal","products list"+products.size());
                 } else {

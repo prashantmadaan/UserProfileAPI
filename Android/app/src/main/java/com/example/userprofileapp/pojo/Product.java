@@ -1,11 +1,13 @@
 package com.example.userprofileapp.pojo;
 
 import android.media.Image;
+import android.net.Uri;
 
 public class Product {
     String prodId;
     Integer discount;
     Image productImage;
+    //Uri productImage;
     String productName;
     String category;
     Double productPrice;

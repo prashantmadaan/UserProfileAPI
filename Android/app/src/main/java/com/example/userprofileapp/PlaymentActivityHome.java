@@ -54,6 +54,7 @@ public class PlaymentActivityHome extends AppCompatActivity implements ProductFr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playment_home);
+        getSupportActionBar().setTitle("Payment");
 
         app_token=getIntent().getStringExtra("TOKEN");
         amt=getIntent().getDoubleExtra("TOTAL_AMOUNT",0.0);

@@ -1,14 +1,17 @@
 package com.example.userprofileapp;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +21,7 @@ import android.widget.TextView;
 
 import com.example.userprofileapp.pojo.Product;
 import com.example.userprofileapp.pojo.User;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,6 +41,10 @@ public class ProductFragment extends Fragment implements ProductAdapter.prodInte
     String productURL = "http://192.168.48.2:3000/products";
     static String token;
     int product_added =0;
+//    SharedPreferences sharedPreferences;
+//    SharedPreferences.Editor editor;
+//    Gson gson = new Gson();
+//    String jsonProd;
 
     private OnFragmentInteractionListener mListener;
 
@@ -52,6 +60,13 @@ public class ProductFragment extends Fragment implements ProductAdapter.prodInte
         token=t;
         fragment_tag=tag;
         return fragment;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Products");
     }
 
     @Override
@@ -72,6 +87,9 @@ public class ProductFragment extends Fragment implements ProductAdapter.prodInte
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        //editor = PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
+
         ImageButton cart = root.findViewById(R.id.cart);
         cart_count = root.findViewById(R.id.cart_count);
         if(fragment_tag == "PAYMENT"){
@@ -79,6 +97,7 @@ public class ProductFragment extends Fragment implements ProductAdapter.prodInte
             Log.d("chella","Coming after payment: "+product_added);
         }
         if(product_added>0){
+            //sharedPreferences.getInt("COUNTER",0);
             cart_count.setText(Integer.toString(product_added));
         }
 
@@ -105,6 +124,9 @@ public class ProductFragment extends Fragment implements ProductAdapter.prodInte
         cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //jsonProd = gson.toJson(selectedProducts);
+                //editor.putString("ADDEDPROD",jsonProd);
+                //editor.apply();
                 CheckoutDetailsFragment.newInstance(token,selectedProducts);
                 if(fragment_tag == "HOME") {
                     getFragmentManager().beginTransaction().replace(R.id.container, new CheckoutDetailsFragment()).addToBackStack(null).commit();
@@ -145,6 +167,7 @@ public class ProductFragment extends Fragment implements ProductAdapter.prodInte
 
         Log.d("chella","Counter value in Fragment "+counter);
         product_added=counter;
+        //editor.putInt("COUNTER",product_added);
         cart_count.setText(Integer.toString(product_added));
     }
 
