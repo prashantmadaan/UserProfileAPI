@@ -30,6 +30,7 @@ import okhttp3.Response;
 public class LoginUser{
 
     String LoginUserURL;
+    String fname;
     FragmentActivity context;
     User User;
     String jsonData,obj,token,message;
@@ -81,8 +82,11 @@ public class LoginUser{
                    newUser.setMessage(message);
                    if(newUser.getStatus().equalsIgnoreCase("Success")){
                    token = jsonObject.getString("token");
+                   fname =jsonObject.getString("first_name");
                    newUser.setToken(token);
                    newUser.setEmail(User.getEmail());
+                   newUser.setFname(fname);
+                   Log.d("chella","First Name :"+newUser.getFname());
                    Log.d("chella","Response from Cache "+newUser.getStatus());
                    Log.d("2chella","jsondata "+newUser.getMessage());
                    Log.d("chella","token "+ newUser.getToken());
@@ -97,6 +101,9 @@ public class LoginUser{
                       // context.getSupportFragmentManager().beginTransaction().replace(R.id.container,userProfileViewFragment,"userProfile").addToBackStack(null).commit();
 
                        ProductFragment.newInstance(newUser.getToken(),"HOME");
+                      // Log.d("chella","User name"+User.getFname());
+
+                       editor.putString("FNAME",newUser.getFname());
                        editor.putString("TOKEN",newUser.getToken());
                        editor.apply();
                        

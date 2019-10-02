@@ -35,6 +35,7 @@ public class LoginFragment extends Fragment {
     String LoginUserURL="http://192.168.118.2:3000/signin";
     String authToken;
     SharedPreferences sharedPreferences;
+    //static User user;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -43,10 +44,11 @@ public class LoginFragment extends Fragment {
 
 
     // TODO: Rename and change types and number of parameters
-    public static LoginFragment newInstance(String param1, String param2) {
+    public static LoginFragment newInstance(User user1) {
         LoginFragment fragment = new LoginFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
+        //user=user1;
         return fragment;
     }
 

@@ -22,6 +22,7 @@ import com.braintreepayments.api.models.PaymentMethodNonce;
 import com.example.userprofileapp.model.BrainTreeToken;
 import com.example.userprofileapp.model.BrainTreeTransaction;
 import com.example.userprofileapp.pojo.Product;
+import com.example.userprofileapp.pojo.User;
 import com.example.userprofileapp.retrofit.IBrainTreeAPI;
 import com.example.userprofileapp.retrofit.RetrofitClient;
 
@@ -45,6 +46,7 @@ public class PlaymentActivityHome extends AppCompatActivity implements ProductFr
     ConstraintLayout paymentLayout;
     LinearLayout waitingLayout;
     Double amt;
+    User user;
 
     IBrainTreeAPI myAPI;
 
@@ -58,6 +60,7 @@ public class PlaymentActivityHome extends AppCompatActivity implements ProductFr
 
         app_token=getIntent().getStringExtra("TOKEN");
         amt=getIntent().getDoubleExtra("TOTAL_AMOUNT",0.0);
+        user = (User) getIntent().getSerializableExtra("USER");
 
         myAPI= RetrofitClient.getInstance(app_token).create(IBrainTreeAPI.class);
 
