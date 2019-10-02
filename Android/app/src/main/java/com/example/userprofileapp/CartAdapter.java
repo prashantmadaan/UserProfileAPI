@@ -10,6 +10,7 @@ package com.example.userprofileapp;
         import android.widget.TextView;
         import android.view.LayoutInflater;
         import com.example.userprofileapp.pojo.Product;
+        import com.squareup.picasso.Picasso;
 
         import java.util.ArrayList;
         import java.util.List;
@@ -43,6 +44,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         final Product product = productList.get(position);
         holder.prodNameCart.setText(product.getProductName());
         holder.prodPriceCart.setText(product.getProductPrice().toString());
+        Picasso.get().load(product.getImageLink()).into(holder.prodImageCart);
         //holder.prodImage.setImageResource(product.getProductImage());
 
         //   notifyDataSetChanged();

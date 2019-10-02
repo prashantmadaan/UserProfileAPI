@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.example.userprofileapp.pojo.Product;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -93,7 +94,8 @@ public class ProductAPI {
                             Product prods = new Product();
                             prods.setDiscount(prod.getInt("discount"));
                             prods.setProductName(prod.getString("name"));
-                            //prods.setProductImage(Uri.parse(prod.getString("photo")));
+                            prods.setImageLink(prod.getString("photo"));
+                           // Picasso.get().load(prod.getString("photo")).into(prods.getIm);
                             Log.d("chella","Product Image :"+prods.getProductImage());
                             prods.setProductPrice(prod.getDouble("price"));
                             prods.setCategory(prod.getString("region"));

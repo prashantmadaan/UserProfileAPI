@@ -8,9 +8,18 @@ public class Product {
     Integer discount;
     Image productImage;
     //Uri productImage;
+    String imageLink;
     String productName;
     String category;
     Double productPrice;
+
+    public String getImageLink() {
+        return imageLink;
+    }
+
+    public void setImageLink(String imageLink) {
+        this.imageLink = imageLink;
+    }
 
     public String getProdId() {
         return prodId;
