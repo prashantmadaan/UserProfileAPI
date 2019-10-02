@@ -41,7 +41,8 @@ public class ProductFragment extends Fragment implements ProductAdapter.prodInte
     String productURL = "http://192.168.48.2:3000/products";
     static String token;
     int product_added =0;
-//    SharedPreferences sharedPreferences;
+    //static User User;
+    SharedPreferences sharedPreferences;
 //    SharedPreferences.Editor editor;
 //    Gson gson = new Gson();
 //    String jsonProd;
@@ -59,6 +60,7 @@ public class ProductFragment extends Fragment implements ProductAdapter.prodInte
         fragment.setArguments(args);
         token=t;
         fragment_tag=tag;
+        //User = user;
         return fragment;
     }
 
@@ -87,11 +89,12 @@ public class ProductFragment extends Fragment implements ProductAdapter.prodInte
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         //editor = PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
-
         ImageButton cart = root.findViewById(R.id.cart);
         cart_count = root.findViewById(R.id.cart_count);
+        TextView usernameText = root.findViewById(R.id.usernameText);
+        usernameText.setText("Hello "+sharedPreferences.getString("FNAME","null"));
         if(fragment_tag == "PAYMENT"){
             product_added=0;
             Log.d("chella","Coming after payment: "+product_added);

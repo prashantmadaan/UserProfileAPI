@@ -28,17 +28,18 @@ public class UserProfileViewFragment extends Fragment {
     TextView age;
     TextView weight;
     TextView address;
-    User user;
+    static User user;
     String userProfileURL = "http://ec2-3-89-187-121.compute-1.amazonaws.com:3000/userprofile/";
 
     public UserProfileViewFragment() {
         // Required empty public constructor
     }
 
-    public static UserProfileViewFragment newInstance(String param1, String param2) {
+    public static UserProfileViewFragment newInstance(User user1) {
         UserProfileViewFragment fragment = new UserProfileViewFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
+        //user = user1;
         return fragment;
     }
 
@@ -55,8 +56,8 @@ public class UserProfileViewFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         MyFragment =inflater.inflate(R.layout.fragment_user_profile_view, container, false);
-        Bundle bundle = getArguments();
-        user = (User)bundle.getSerializable("user");
+//        Bundle bundle = getArguments();
+//        user = (User)bundle.getSerializable("user");
         return MyFragment;
     }
 

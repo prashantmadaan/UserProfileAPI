@@ -27,7 +27,7 @@
     <string name="SaveButton">Save</string>
     <string name="EnterAddress">Enter Your Address</string>
     <string name="checkout_text">CHECKOUT</string>
-    <string name="payButton">PAY</string>
+    <string name="payButton">Checkout</string>
     <string name="addButton">Add</string>
     <string name="ipAddress">192.168.48.2</string>
 </resources>

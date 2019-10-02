@@ -56,6 +56,10 @@ public class MainActivity extends AppCompatActivity implements
             getSupportFragmentManager().beginTransaction().add(R.id.container,new LoginFragment(),"tag_LoginFrag").addToBackStack(null).commit();
             return true;
         }
+        //if(id==R.id.userprofile){
+            //UserProfileViewFragment.newInstance(user);
+            //getSupportFragmentManager().beginTransaction().add(R.id.container,new UserProfileViewFragment(),"userprofile").addToBackStack(null).commit();
+        //}
 
         return super.onOptionsItemSelected(item);
     }

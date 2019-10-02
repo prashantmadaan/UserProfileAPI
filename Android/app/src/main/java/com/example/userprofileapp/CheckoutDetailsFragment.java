@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.userprofileapp.pojo.Product;
+import com.example.userprofileapp.pojo.User;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -39,6 +40,7 @@ public class CheckoutDetailsFragment extends Fragment {
     static List<Product> addedProducts;
     static  String token;
     double totalCost=0.0;
+    //static User user;
     SharedPreferences sharedPreferences;
     List<Product> addedProd = new ArrayList<>();
 
@@ -49,7 +51,7 @@ public class CheckoutDetailsFragment extends Fragment {
     }
 
     // TODO: Rename and change types and number of parameters
-    public static CheckoutDetailsFragment newInstance(String t,List<Product> products) {
+    public static CheckoutDetailsFragment newInstance(String t, List<Product> products) {
         CheckoutDetailsFragment fragment = new CheckoutDetailsFragment();
         Bundle args = new Bundle();
         addedProducts=products;
@@ -110,6 +112,7 @@ public class CheckoutDetailsFragment extends Fragment {
                 Intent intent = new Intent(getActivity(),PlaymentActivityHome.class);
                 intent.putExtra("TOKEN",token);
                 intent.putExtra("TOTAL_AMOUNT",totalCost);
+                //intent.putExtra("USER",user);
                 getActivity().startActivity(intent);
             }
         });
