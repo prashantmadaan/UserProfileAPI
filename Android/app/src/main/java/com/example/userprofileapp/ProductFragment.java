@@ -38,7 +38,7 @@ public class ProductFragment extends Fragment implements ProductAdapter.prodInte
     private RecyclerView.LayoutManager layoutManager;
     List<Product> productList = new ArrayList<>();
     List<Product> selectedProducts = new ArrayList<>();
-    String productURL = "http://192.168.118.2:3000/products";
+    String productURL = "http://192.168.48.2:3000/products";
     static String token;
     int product_added =0;
     //static User User;

@@ -109,7 +109,7 @@ public class CheckoutDetailsFragment extends Fragment {
         pay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(),PlaymentActivityHome.class);
+                Intent intent = new Intent(getActivity(),PayementWithStripe.class);
                 intent.putExtra("TOKEN",token);
                 intent.putExtra("TOTAL_AMOUNT",totalCost);
                 //intent.putExtra("USER",user);

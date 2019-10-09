@@ -51,5 +51,8 @@ dependencies {
     //braintreedropin
     implementation 'com.braintreepayments.api:drop-in:4.1.1'
 
+    //stripePayments
+    implementation 'com.stripe:stripe-android:11.2.0'
+
 
 }
